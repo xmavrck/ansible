@@ -1,0 +1,12 @@
+#!/bin/bash
+
+memtotal=$(ansible localhost -m setup -a 'filter=ansible_memtotal_mb' | grep ansible_memtotal_mb | awk -F ": " '{print $2}'
+#echo $memtotal
+
+if [  "$memtotal" -gt "9500" ] 
+then
+    echo "Memory is fine."
+else
+    echo "You have less memory"
+fi
+       

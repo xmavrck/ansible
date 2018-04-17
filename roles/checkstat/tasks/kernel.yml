@@ -1,0 +1,13 @@
+---
+    - name: Checking Kernel Version
+      shell: uname -r | awk -F . '{print $1"."$2}'
+      register: kernel
+ 
+    - debug:
+            msg: "You have have supported kernel version"
+      when:  ansible_kernel.split('-')[0] is version_compare('3.10', '>=')
+ 
+    - debug:
+          msg: "Kindly update your kernel version"
+      when: ansible_kernel.split('-')[0] is version_compare('3.10', '<=')
+

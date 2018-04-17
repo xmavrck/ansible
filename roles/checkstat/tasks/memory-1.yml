@@ -1,0 +1,8 @@
+---
+ - name: Check memory stat
+   script: ./ansible
+   register: memory_stat
+   ignore_errors: yes
+
+ - debug:
+       var: memory_stat

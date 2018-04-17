@@ -1,0 +1,113 @@
+---
+ - name: Check the SSH Protocol version
+   shell: grep  Protocol  /etc/ssh/sshd_config
+   register: output_ssh
+   ignore_errors: yes
+
+ - debug: 
+      msg: "You are using Protocol version 1 , kindly update"
+   when: output_ssh.stdout == 'Protocol 1'
+ 
+ - debug:
+      msg: "You have met the security needs"
+
+
+ - name: Check Status Of Vunerable Packages
+   shell: systemctl status "{{ item }}"
+   register: output_packages
+   ignore_errors: yes
+   with_items: 
+     - "{{ packages }}"
+
+ - debug:
+      msg: "You have do not have vunerable Packages Installed"
+   when: output_packages.failed == true
+
+ - debug:
+      msg: "You have vunerable packages {{ packages }} Installed"
+   when: output_packages.failed == false
+
+ - name: Check Empty Passwords in SSH 
+   shell: grep PermitEmptyPasswords /etc/ssh/sshd_config 
+   register: output_ssh_pass
+   ignore_errors: yes
+
+ - debug:
+      msg: "You have enabled empty password access in your system"
+   when: output_ssh_pass.stdout == 'PermitEmptyPasswords yes'
+ 
+ - debug:
+      msg: "You have met with security needs"
+   when: output_ssh_pass.stdout == 'PermitEmptyPasswords no'
+
+
+ - name: Check X11 forwarding in SSH
+   shell: grep X11Forwarding /etc/ssh/sshd_config 
+   register: output_ssh_x11
+   ignore_errors: yes
+
+ - debug: 
+      msg: "You have enabled X11 Forwarding in your system"
+   when: output_ssh_x11.stdout == 'X11Forwarding yes'
+
+ - debug:
+      msg: "You have met with security needs"
+   when: output_ssh_x11.stdout == 'X11Forwarding no'
+
+ - name: Checking Logs
+   shell: grep "^[^#;]" /etc/rsyslog.d/50-default.conf | awk '{print $1}'
+   register: logs
+
+ - debug:
+        msg: "Cron logs are not enabled"
+   when: "'cron.*' not in logs.stdout"
+
+ - debug:
+        msg: "Cron logs are enabled"
+   when: "'cron.*' in logs.stdout"
+
+ - debug:
+        msg: "User logs are not enabled"
+   when: "'user.*' not in logs.stdout"
+
+ - debug:
+        msg: "User logs are  enabled"
+   when: "'user.*'  in logs.stdout"
+
+
+
+ - debug: 
+        msg: "Auth logs are not enabled"
+   when: "'auth,authpriv.*' not in logs.stdout"
+
+ - debug:
+        msg: "Auth logs not enabled"
+   when: "'auth,authpriv.*'  in logs.stdout"
+
+
+ - name: Checking USB
+   shell: cat /etc/modprobe.d/blacklist.conf | grep blacklist | awk '{print $2}'
+   register: usb
+
+ - debug: 
+        msg: "Usb Mounting is Not Blacklisted"
+   when: "'usb-storage' not in usb.stdout_lines"
+
+ - debug:
+        msg: "Usb Mounting is Blacklisted"
+   when: "'usb-storage'  in usb.stdout_lines"
+
+
+
+ - name: Checking Ctrl+Alt+Delete reboot
+   stat: path=/etc/systemd/system/ctrl-alt-del.target
+   register: cad
+
+ - debug:
+        msg: "Ctrl+Alt+Delete reboot is enabled"
+   when: cad.stat.exists == true
+
+ - debug:
+        msg: "Ctrl+Alt+Delete reboot is disabled"
+   when: cad.stat.exists == false
+

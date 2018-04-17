@@ -1,0 +1,59 @@
+---
+ - name: Disable Kernel Modules from loading
+   lineinfile:
+      dest: /etc/modprobe.d/blackkernel.conf
+      state: present
+      create: yes
+      line: "{{ item }}"
+   with_items:
+        - "{{ kernel }}"
+   register: output
+   ignore_errors: yes
+   
+# - debug: 
+#       var: output
+
+ - name: Set SSH MaxAuthTries 
+   lineinfile:
+    dest: /etc/ssh/sshd_config
+    state: present
+    regexp: '^MaxAuthTries'
+    line: 'MaxAuthTries 5'
+ 
+ - name: Set SSH to use Protocol 2
+   replace: 
+       dest: /etc/ssh/sshd_config
+       regexp: 'Protocol 1'
+       replace: 'Protocol 2'
+
+ - name: Disbale Empty Passwords
+   replace: 
+       dest: /etc/ssh/sshd_config
+       regexp: 'PermitEmptyPasswords yes'
+       replace: 'PermitEmptyPasswords no'
+
+ - name: Disable X11 Forwarding
+   lineinfile:
+    dest: /etc/ssh/sshd_config
+    state: present
+    regexp: '^X11Forwarding'
+    line: 'X11Forwarding no'
+   notify: 
+       - restart_sshd
+ 
+ - name: Remove Vunerable Packages 
+   apt:
+       name: "{{ item }}"
+       state: absent
+   with_items: 
+       - "{{ packages }}"
+   when:  ansible_os_family == "Debian"
+
+ - name: Remove Vunerable Packages
+   yum: 
+       name: "{{ item }}"
+       state: absent
+   with_items: 
+       - "{{ packages }}"
+   when:  ansible_os_family == "Redhat"
+

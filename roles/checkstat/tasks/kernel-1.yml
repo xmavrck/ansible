@@ -1,0 +1,8 @@
+---
+ - name: Check the Kernel Version
+   script: ./kernel
+   register: kernel_version
+   ignore_errors: kernel_version
+
+ - debug:
+       var: kernel_version

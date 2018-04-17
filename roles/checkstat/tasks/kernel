@@ -1,0 +1,11 @@
+#!/bin/bash
+
+kernel=$(uname -r|cut -c 1-3)
+echo $kernel
+value='3.10'
+if (( $(bc <<< "$kernel >= $value") ))
+then
+  echo "Kernel value is fine"
+else
+ echo "Please update Kernel version"
+fi
