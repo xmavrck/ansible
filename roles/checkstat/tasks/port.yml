@@ -1,0 +1,11 @@
+---
+ - name: Checking open ports
+   shell: netstat -atn | grep LISTEN | awk '{print $4}'| awk -F':' '{print $2}'| grep [0-9]
+   register: port
+
+ - debug:
+      msg: "These are the number of Active Ports :- {{ port.stdout_lines }}"
+
+
+
+ 

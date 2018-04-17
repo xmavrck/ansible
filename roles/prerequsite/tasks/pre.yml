@@ -1,0 +1,34 @@
+---
+ - name: Install python-netaddr on Debian Systems
+   apt:
+       name: python-netaddr
+       state: latest
+       update_cache: yes
+#       show_custom_stats: no
+   when: ansible_os_family == "Debian"
+
+ - name: Install python-netaddr on Redhat Systems
+   yum:
+       name: python-netaddr
+   when: ansible_os_family == "Redhat"
+ 
+
+
+ - name: Disable swapoff
+   shell: swapoff -a
+
+ - name: Disable Swap in fstab
+   replace:
+       path: /etc/fstab
+       regexp: '^(\s*)([^#\n]+\s+)(\w+\s+)swap(\s+.*)$'
+       replace: '#\1\2\3swap\4'
+   backup: yes
+
+
+
+
+
+
+
+
+

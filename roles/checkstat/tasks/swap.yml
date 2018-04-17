@@ -1,0 +1,14 @@
+---
+       - name: Check swap if enabled task will fail
+         shell: swapon -s
+         register: swap
+
+#       - debug:
+#             var: swap
+
+       - set_fact: swa=[/dev,/dev/sda,Partition,Type,Filename]
+
+       - fail:
+             msg: "You have swap enabled kindly disable swap"
+         when: swap.stdout not in swa
+
