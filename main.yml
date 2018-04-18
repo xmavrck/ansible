@@ -1,7 +1,8 @@
 ---
  - hosts: all
    roles:
-       - checkstat
        - prerequsite
-       - security
+       - checkstat
+#       - security
+#       - uri
 
