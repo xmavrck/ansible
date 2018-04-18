@@ -3,4 +3,4 @@
    shell: curl -i -X POST \
                -H "Content-Type= multipart/form-data" \
                -F "kube_config=@/root/.kube/config" \
-                   http://172.16.17.18:1920/v1/kube_config
+                   {{ NEXA_IP }}/v1/kube_config

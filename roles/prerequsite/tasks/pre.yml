@@ -14,15 +14,15 @@
  
 
 
- - name: Disable swapoff
-   shell: swapoff -a
+# - name: Disable swapoff
+#   shell: swapoff -a
 
- - name: Disable Swap in fstab
-   replace:
-       path: /etc/fstab
-       regexp: '^(\s*)([^#\n]+\s+)(\w+\s+)swap(\s+.*)$'
-       replace: '#\1\2\3swap\4'
-   backup: yes
+# - name: Disable Swap in fstab
+#   replace:
+#       path: /etc/fstab
+#       regexp: '^(\s*)([^#\n]+\s+)(\w+\s+)swap(\s+.*)$'
+#       replace: '#\1\2\3swap\4'
+#   backup: yes
 
 
 
