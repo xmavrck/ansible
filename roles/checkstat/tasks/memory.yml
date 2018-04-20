@@ -1,8 +1,14 @@
----  
- - fail:       
-       msg: "You have not supported the memory requirements , kindly increase your memory"    
-   when: ansible_memtotal_mb <= 1500  
- 
- - debug:       
-        msg: "You have supported the memory requirements"    
-   when: ansible_memtotal_mb >= 1500                                                                   
+---
+ - name: Checking Memory
+   fail:
+        msg: You have not supported the memory requirements
+   when: ansible_memtotal_mb <= 1500 
+          
+
+
+
+
+
+
+                                                                                                          
+                                                                                                          

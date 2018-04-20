@@ -1,5 +1,5 @@
 ---
  - import_tasks: memory.yml
  - import_tasks: kernel.yml
- - import_tasks: port.yml
  - import_tasks: swap.yml
+ - import_tasks: port.yml

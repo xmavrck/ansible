@@ -1,8 +1,5 @@
----  
- - debug:    
-     msg: "Swap is disabled , playbooks shall proceed"  
-   when: ansible_swaptotal_mb == 0 
-
- - fail:        
+---
+ - name: Check Swap  
+   fail:        
       msg: "Swap is enabled , kindly disable swap"    
    when: ansible_swaptotal_mb != 0                                                                        

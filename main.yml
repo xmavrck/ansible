@@ -3,6 +3,4 @@
    roles:
        - prerequsite
        - checkstat
-#       - security
-#       - uri
 
