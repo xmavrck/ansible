@@ -1,0 +1,9 @@
+---
+ - raw: "{{ item }}"
+   with_items:
+     - wget -qO- https://raw.githubusercontent.com/judexzhu/Install-Python-on-CoreOs/master/install-python.sh | sudo bash
+     - sudo touch ~/.bashrc
+     - sudo echo export PATH=$PATH:/opt/bin > ~/.bashrc
+   when: bootstrap_os == "coreos"
+
+

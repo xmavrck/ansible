@@ -1,13 +1,4 @@
 ---
- - raw: "{{ item }}"
-   with_items:
-     - wget -qO- https://raw.githubusercontent.com/judexzhu/Install-Python-on-CoreOs/master/install-python.sh | sudo bash
-     - sudo touch ~/.bashrc
-     - sudo echo export PATH=$PATH:/opt/bin > ~/.bashrc
-   when:
-      - os == "coreos"
-
-
  - name: Install python-netaddr on Debian Systems
    apt:
        name: python-netaddr

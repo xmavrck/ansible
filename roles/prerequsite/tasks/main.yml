@@ -1,2 +1,4 @@
 ---
+ - import_tasks: coreos.yml
+   gather_facts: no
  - import_tasks: pre.yml
